@@ -1,0 +1,54 @@
+<!-- templates/ideas/list.html -->
+{% extends "base.html" %}
+{% block title %}アイデア一覧{% endblock %}
+
+{% block content %}
+<h1>アイデア一覧</h1>
+
+<form method="get" class="mb-3">
+  <label class="form-label">ステータス:</label>
+  <select name="status" class="form-select w-auto d-inline">
+    <option value="">すべて</option>
+    <option value="検討中" {% if selected_status == '検討中' %}selected{% endif %}>検討中</option>
+    <option value="進行中" {% if selected_status == '進行中' %}selected{% endif %}>進行中</option>
+    <option value="完了" {% if selected_status == '完了' %}selected{% endif %}>完了</option>
+  </select>
+  <button type="submit" class="btn btn-primary btn-sm">絞り込み</button>
+</form>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>ステータス</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for idea in ideas %}
+    <tr>
+      <td>{{ idea.title }}</td>
+      <td>
+        <span class="badge 
+          {% if idea.status == '検討中' %}bg-secondary
+          {% elif idea.status == '進行中' %}bg-primary
+          {% elif idea.status == '完了' %}bg-success
+          {% endif %}
+        ">
+          {{ idea.status }}
+        </span>
+      </td>
+      <td>
+        <a href="{{ url_for('main.edit_idea', id=idea.id) }}" class="btn btn-sm btn-outline-secondary">編集</a>
+        <form action="{{ url_for('main.delete_idea', id=idea.id) }}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">まだアイデアがありません。</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+

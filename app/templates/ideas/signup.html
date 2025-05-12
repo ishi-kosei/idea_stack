@@ -1,0 +1,23 @@
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div>
+        {{ form.username.label }}<br>
+        {{ form.username(class="form-control") }}
+    </div>
+
+    <div>
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control") }}
+    </div>
+
+    <div>
+        {{ form.confirm_password.label }}<br>  <!-- ← これが必要！ -->
+        {{ form.confirm_password(class="form-control") }}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn btn-success mt-3") }}
+    </div>
+</form>
+
